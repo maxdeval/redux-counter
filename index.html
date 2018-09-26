@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://npmcdn.com/redux/dist/redux.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+  <button id="clicker">Click Me</button>
+  <span id="counter"></span> 
+<script type="text/javascript">
+
+//
+//            INITIAL STATE
+//
+//
+
+var initial_state = 0;
+
+//
+//            MAIN REDUCER
+//
+//
+
+var main_reducer = function(state, action) {
+  switch(action.type){
+    case 'INCREMENT': return state + 1;
+    default: return state;
+  }
+};
+
+//        
+//            MAIN STORE
+//
+//
+
+var main_store = Redux.createStore(main_reducer, initial_state);
+
+//
+//            ACTION
+//
+//
+
+var main_action = {
+    increment: function(){
+        return {type: 'INCREMENT'};
+    }
+};
+
+//
+//              UI updater
+//
+//
+
+var update = function(state) {
+  $('#counter').html(state)
+}
+
+//
+//            DISPATCHER
+//
+//
+
+$('#clicker').click(function() {
+    action = main_action.increment()
+    main_store.dispatch(action)
+})
+
+
+//
+//          SUSCRIBER
+//
+//
+
+main_store.subscribe(function(){
+  update(main_store.getState());
+});
+update(main_store.getState());
+
+
+</script>
+</body>
+</html>
